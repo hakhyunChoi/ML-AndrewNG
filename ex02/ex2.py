@@ -23,6 +23,9 @@ from scipy.optimize import fmin_bfgs
 
 import plotData as pd
 import costFunction as cf
+import plotDecisionBoundary as pdb
+import sigmoid as sig
+import predict as pr
 ## Load Data
 #  The first two columns contains the exam scores and the third column
 #  contains the label.
@@ -47,7 +50,6 @@ plt.ylabel('Exam 2 score')
 plt.legend((p1, p2), ('Admitted', 'Not Admitted'), numpoints=1, handlelength=0)
 plt.show(block=False)
 input('Program paused. Press enter to continue.\n')
-
 
  
 ## ============ Part 2: Compute Cost and Gradient ============
@@ -93,42 +95,38 @@ print('Cost at theta found by fminunc: {:f}\n'.format(cost))
 print('theta:')
 print(theta)
   
-# # Plot Boundary
-# plotDecisionBoundary(theta, X, y)
-#  
-# # Put some labels 
-# # Labels and Legend
-# xlabel('Exam 1 score')
-# ylabel('Exam 2 score')
-#  
-# # Specified in plot order
-# legend('Admitted', 'Not admitted')
-#  
-# input('\nProgram paused. Press enter to continue.\n')
-
+plt.close('all')
+# Plot Boundary
+plt, p1, p2 = pdb.plotDecisionBoundary(theta, X, y)
+  
+# Put some labels 
+# Labels and Legend
+plt.xlabel('Exam 1 score')
+plt.ylabel('Exam 2 score')
+  
+# Specified in plot order
+plt.show(block=False)  
+input('Program paused. Press enter to continue.\n')
  
-# ## ============== Part 4: Predict and Accuracies ==============
-# #  After learning the parameters, you'll like to use it to predict the outcomes
-# #  on unseen data. In this part, you will use the logistic regression model
-# #  to predict the probability that a student with score 45 on exam 1 and 
-# #  score 85 on exam 2 will be admitted.
-# #
-# #  Furthermore, you will compute the training and test set accuracies of 
-# #  our model.
-# #
-# #  Your task is to complete the code in predict.m
-# 
-# #  Predict probability for a student with score 45 on exam 1 
-# #  and score 85 on exam 2 
-# 
-# prob = sigmoid([1 45 85] * theta)
-# print(['For a student with scores 45 and 85, we predict an admission ' ...
-#          'probability of #f\n\n'], prob)
-# 
-# # Compute accuracy on our training set
-# p = predict(theta, X)
-# 
-# print('Train Accuracy: #f\n', mean(double(p == y)) * 100)
-# 
-# print('\nProgram paused. Press enter to continue.\n')
-# pause
+## ============== Part 4: Predict and Accuracies ==============
+#  After learning the parameters, you'll like to use it to predict the outcomes
+#  on unseen data. In this part, you will use the logistic regression model
+#  to predict the probability that a student with score 45 on exam 1 and 
+#  score 85 on exam 2 will be admitted.
+#
+#  Furthermore, you will compute the training and test set accuracies of 
+#  our model.
+#
+#  Your task is to complete the code in predict.m
+ 
+#  Predict probability for a student with score 45 on exam 1 
+#  and score 85 on exam 2 
+ 
+prob = sig.sigmoid(np.dot([[1, 45, 85]], theta.T))
+print('For a student with scores 45 and 85, we predict an admission probability of {:f}'.format(float(prob)))
+ 
+#  Compute accuracy on our training set
+p   = pr.predict(theta, X)
+p   = p.reshape(p.shape[0],1)
+print('Train Accuracy: {:f}'.format(np.mean((p == y))*100))
+input('Program paused. Press enter to continue.\n')
