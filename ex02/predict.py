@@ -16,9 +16,8 @@ def predict(theta, X):
     # Instructions: Complete the following code to make predictions using
     #               your learned logistic regression parameters. 
     #               You should set p to a vector of 0's and 1's
-    sigValue    = sig.sigmoid(np.dot(X, theta))
-    p           = sigValue >= 0.5
-    p           = p.reshape((p.shape[0],1))
-    
+    sigValue = sig.sigmoid(np.dot(X, theta.T))
+    p = sigValue >= 0.5
+   
     return p
 # =========================================================================

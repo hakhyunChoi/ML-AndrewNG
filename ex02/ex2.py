@@ -124,8 +124,9 @@ input('Program paused. Press enter to continue.\n')
  
 prob = sig.sigmoid(np.dot([[1, 45, 85]], theta.T))
 print('For a student with scores 45 and 85, we predict an admission probability of {:f}'.format(float(prob)))
-
+ 
 #  Compute accuracy on our training set
-p = pr.predict(theta, X)
+p   = pr.predict(theta, X)
+p   = p.reshape(p.shape[0],1)
 print('Train Accuracy: {:f}'.format(np.mean((p == y))*100))
 input('Program paused. Press enter to continue.\n')
