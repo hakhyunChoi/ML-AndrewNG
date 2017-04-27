@@ -12,10 +12,12 @@ def mapFeature(X1, X2):
     #   Inputs X1, X2 must be the same size
 
     degree = 6
-    out = np.ones(X1.shape[0])
-
-    for i in range(degree):
-        for j in range(i)
-            out(:, end+1) = (X1.^(i-j)).*(X2.^j)
+    out = np.ones(( X1.shape[0], sum(range(degree+2)) ))
+    curr_column = 1
+    
+    for i in range(1, degree + 1):
+        for j in range(i+1):
+            out[:,curr_column] = np.power(X1,i-j) * np.power(X2,j)
+            curr_column += 1
 
     return out
