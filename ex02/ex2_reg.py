@@ -20,7 +20,10 @@
 ## Initialization
 import numpy as np
 
+## User defined functions
 import plotData as pd
+import mapFeature as mf
+import costFunctionReg as cfr
 ## Load Data
 #  The first two columns contains the X values and the third column
 #  contains the label (y).
@@ -52,22 +55,21 @@ plt.legend((p1, p2), ('y = 1', 'y = 0'), numpoints=1, handlelength=0)
  
 # Note that mapFeature also adds a column of ones for us, so the intercept
 # term is handled
-X = mapFeature(X(:,1), X(:,2))
+X = mf.mapFeature(X[:,0], X[:,1])
  
 # Initialize fitting parameters
-initial_theta = zeros(size(X, 2), 1)
+initial_theta = np.zeros((X.shape[1], 1))
  
 # Set regularization parameter lambda to 1
-lambda = 1
+lambda_reg = 1
  
 # Compute and display initial cost and gradient for regularized logistic
 # regression
-[cost, grad] = costFunctionReg(initial_theta, X, y, lambda)
+cost, grad = cfr.costFunctionReg(initial_theta, X, y, lambda_reg)
  
-print('Cost at initial theta (zeros): #f\n', cost)
- 
-print('\nProgram paused. Press enter to continue.\n')
-pause
+print('Cost at initial theta (zeros): {:f}\n'.format(cost))
+input('Program paused. Press enter to continue.\n')
+
  
 # ## ============= Part 2: Regularization and Accuracies =============
 # #  Optional Exercise:
