@@ -22,12 +22,12 @@ def costFunctionReg(theta, X, y, lambda_reg, return_grad=False):
     z       = np.dot(X, theta)
     sig_z   = sigmoid(z)
     one     = np.dot( -y.T, np.log(sig_z) )
-    two     = np.dot( (1-y).T, np.log(1-sig_z) ) 
-    J       = ( one - two ) / m 
+    two     = np.dot( (1-y).T, np.log(1-sig_z) )
+    reg     = lambda_reg/(2 * m) * np.dot(theta.T, theta) 
+    J       = ( one - two ) / m + reg
     
     grad        = ( np.dot((sig_z - y).T, X) + lambda_reg * grad ) / m
     grad_zero   = np.dot((sig_z - y).T, X) / m
-    
     grad[0]     = grad_zero[0]
     
     if return_grad == True:

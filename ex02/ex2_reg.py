@@ -71,7 +71,7 @@ lambda_reg = 1.0
 # regression
 cost = cfr.costFunctionReg(initial_theta, X, y, lambda_reg)
  
-print('Cost at initial theta (zeros): {:f}\n'.format(float(cost)))
+print('Cost at initial theta (zeros): {:f}'.format(float(cost)))
 input('Program paused. Press enter to continue.\n')
 
  
@@ -116,6 +116,6 @@ plt.legend((p1, p2), ('y = 1', 'y = 0'), numpoints=1, handlelength=0)
 plt.show(block=False)
 # Compute accuracy on our training set
 p = pr.predict(theta, X)
- 
+p = p.reshape(p.shape[0],1)
 print('Train Accuracy: {:f}'.format(np.mean((p == y))*100))
 input('Program paused. Press enter to continue.\n')
