@@ -17,7 +17,7 @@ def mapFeature(X1, X2):
     
     for i in range(1, degree + 1):
         for j in range(i+1):
-            out[:,curr_column] = np.power(X1,i-j) * np.power(X2,j)
+            out[:,curr_column] = X1**(i-j) * X2**j
             curr_column += 1
-
+    
     return out

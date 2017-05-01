@@ -1,7 +1,7 @@
 import numpy as np
 from sigmoid import sigmoid
 
-def costFunctionReg(theta, X, y, lambda_reg):
+def costFunctionReg(theta, X, y, lambda_reg, return_grad=False):
     #COSTFUNCTIONREG Compute cost and gradient for logistic regression with regularization
     #   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost of using
     #   theta as the parameter for regularized logistic regression and the
@@ -24,9 +24,14 @@ def costFunctionReg(theta, X, y, lambda_reg):
     one     = np.dot( -y.T, np.log(sig_z) )
     two     = np.dot( (1-y).T, np.log(1-sig_z) ) 
     J       = ( one - two ) / m 
-
-
-
-
-    return J, grad
+    
+    grad        = ( np.dot((sig_z - y).T, X) + lambda_reg * grad ) / m
+    grad_zero   = np.dot((sig_z - y).T, X) / m
+    
+    grad[0]     = grad_zero[0]
+    
+    if return_grad == True:
+        return J, grad.flatten()
+    elif return_grad == False:
+        return J
 # =============================================================

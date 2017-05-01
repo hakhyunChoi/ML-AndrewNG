@@ -1,6 +1,7 @@
 import plotData as pd
 import numpy as np
 
+import mapFeature as mf
 def plotDecisionBoundary(theta, X, y):
 #PLOTDECISIONBOUNDARY Plots the data points X and y into a new figure with
 #the decision boundary defined by theta
@@ -27,21 +28,24 @@ def plotDecisionBoundary(theta, X, y):
         # Legend, specific for the exercise
         plt.legend((p1, p2, p3[0]), ('Admitted', 'Not Admitted', 'Decision Boundary'), numpoints=1, handlelength=0.5)
         plt.axis([30, 100, 30, 100])
-#     else:
-#         # Here is the grid range
-#         u = linspace(-1, 1.5, 50);
-#         v = linspace(-1, 1.5, 50);
-#      
-#         z = zeros(length(u), length(v));
-#         # Evaluate z = theta*x over the grid
-#         for i = 1:length(u)
-#             for j = 1:length(v)
-#                 z(i,j) = mapFeature(u(i), v(j))*theta;
-#             end
-#         end
-#         z = z'; # important to transpose z before calling contour
-#      
-#         # Plot z = 0
-#         # Notice you need to specify the range [0, 0]
-#         contour(u, v, z, [0, 0], 'LineWidth', 2)
+    else:
+        # Here is the grid range
+        u = np.linspace(-1, 1.5, 50)
+        v = np.linspace(-1, 1.5, 50)
+      
+        z = np.zeros((len(u), len(v)))
+        # Evaluate z = theta*x over the grid
+        for i in range(len(u)):
+            for j in range(len(v)):
+                z[i,j] = np.dot(mf.mapFeature(np.array([u[i]]), np.array([v[j]])),theta)
+        z = z.transpose() # important to transpose z before calling contour
+
+        # Plot z = 0
+        # Notice you need to specify the level 0
+        # we get collections[0] so that we can display a legend properly
+        p3 = plt.contour(u, v, z, levels=[0], linewidth=2).collections[0]
+        
+        # Legend, specific for the exercise
+        plt.legend((p1,p2, p3),('y = 1', 'y = 0', 'Decision Boundary'), numpoints=1, handlelength=0)
+        
     return plt, p1, p2
