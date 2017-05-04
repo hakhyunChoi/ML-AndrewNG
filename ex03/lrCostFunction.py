@@ -1,4 +1,7 @@
 import numpy as np
+import sys
+
+## User define function
 from sigmoid import sigmoid
 
 def lrCostFunction(theta, X, y, lambda_reg):
@@ -37,10 +40,19 @@ def lrCostFunction(theta, X, y, lambda_reg):
     #           temp = theta; 
     #           temp(1) = 0;   # because we don't add anything for j = 0  
     #           grad = grad + YOUR_CODE_HERE (using the temp variable)
-    
-    
-    
-    # =============================================================
-    grad = grad[:]
+    z       = np.dot(X, theta)
+    sig_z   = sigmoid(z)
+    one     = np.dot( -y.T, np.log(sig_z) )
+    two     = np.dot( (1-y).T, np.log(1-sig_z) )
+    reg     = lambda_reg * np.dot(theta.T, theta) / (2 * m)
 
-    return J, grad
+    J       = ( one - two ) / m + reg     
+    sys.stdout.write(J)
+    
+    temp    = theta
+    temp[0] = 0
+    grad    = ( np.dot((sig_z - y).T, X) + lambda_reg * temp.T) / m
+ 
+    # =============================================================
+
+#     return J, grad

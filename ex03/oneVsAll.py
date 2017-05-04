@@ -2,7 +2,8 @@ import numpy as np
 from scipy.optimize import minimize, fmin, fmin_bfgs
 
 # User define function
-import lrCostFunction as ircf
+import lrCostFunction as lrcf
+import lrCostFunction
 
 def oneVsAll(X, y, num_labels, lambda_reg):
 	# ONEVSALL trains multiple logistic regression classifiers and returns all
@@ -40,7 +41,7 @@ def oneVsAll(X, y, num_labels, lambda_reg):
 	#
 	# Example Code for fmincg:
 
-	# Set Initial theta
+	#
 	initial_theta = np.zeros((n + 1, 1))
 
 	#  Set options for fminunc
@@ -51,7 +52,8 @@ def oneVsAll(X, y, num_labels, lambda_reg):
 	
 	#  Run fminunc to obtain the optimal theta
 	#  This function will return theta and the cost 
-	all_theta = fmin_bfgs(ircf.lrCostFunction, x0=initial_theta, args=myargs)
+	lrCostFunction(initial_theta, X, y, lambda_reg)
+#  	all_theta = fmin_bfgs(lrcf.lrCostFunction, x0=initial_theta, args=myargs)
 	
 	return all_theta
 # =========================================================================
