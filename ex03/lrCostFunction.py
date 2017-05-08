@@ -4,7 +4,7 @@ import sys
 ## User define function
 from sigmoid import sigmoid
 
-def lrCostFunction(theta, X, y, lambda_reg):
+def lrCostFunction(theta, X, y, lambda_reg, return_grad = False):
     #LRCOSTFUNCTION Compute cost and gradient for logistic regression with 
     #regularization
     #   J = LRCOSTFUNCTION(theta, X, y, lambda) computes the cost of using
@@ -12,11 +12,13 @@ def lrCostFunction(theta, X, y, lambda_reg):
     #   gradient of the cost w.r.t. to the parameters. 
     
     # Initialize some useful values
-    m = y.shape[0] # number of training examples
+    m       = y.shape[0] # number of training examples
     
     # You need to return the following variables correctly 
-    J = 0
-    grad = np.zeros(theta.size)
+    J       = 0
+    y       = y.reshape(y.size,1)
+    theta   = theta.reshape(theta.size,1)
+    grad    = np.zeros(theta.shape)
     
     # ====================== YOUR CODE HERE ======================
     # Instructions: Compute the cost of a particular choice of theta.
@@ -40,19 +42,24 @@ def lrCostFunction(theta, X, y, lambda_reg):
     #           temp = theta; 
     #           temp(1) = 0;   # because we don't add anything for j = 0  
     #           grad = grad + YOUR_CODE_HERE (using the temp variable)
+    one_y   = np.ones((y.shape))
     z       = np.dot(X, theta)
     sig_z   = sigmoid(z)
-    one     = np.dot( -y.T, np.log(sig_z) )
-    two     = np.dot( (1-y).T, np.log(1-sig_z) )
+    one     = np.dot( (-one_y*y).T, np.log(sig_z) )
+    two     = np.dot( (one_y-y).T, np.log(1-sig_z) )
     reg     = lambda_reg * np.dot(theta.T, theta) / (2 * m)
 
     J       = ( one - two ) / m + reg     
-    sys.stdout.write(J)
-    
-    temp    = theta
-    temp[0] = 0
-    grad    = ( np.dot((sig_z - y).T, X) + lambda_reg * temp.T) / m
- 
-    # =============================================================
+#     sys.stdout.write("Cost: %f   \r" % (J) )
+#     sys.stdout.flush()
+        
+    grad                    = ( np.dot((sig_z - y).T, X) + lambda_reg * theta.T) / m
+    grad_no_regularization  = np.dot((sig_z - y).T, X) / m
 
-#     return J, grad
+    grad[0]                 = grad_no_regularization[0]    
+    
+    # =============================================================
+    if return_grad:
+        return J, grad.flatten()
+    else:
+        return J

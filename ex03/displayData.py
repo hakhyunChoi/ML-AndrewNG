@@ -8,6 +8,10 @@ def displayData(X, example_width=None):
     #   stored in X in a nice grid. It returns the figure handle h and the 
     #   displayed array if requested.
     
+    # turns 1D X array into 2D
+    if X.ndim == 1:
+        X = X.reshape(1,X.shape[0])
+    
     # Set example_width automatically if not passed in
     if not example_width:
         example_width = int( round(np.sqrt(X.shape[1])) )

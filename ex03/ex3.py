@@ -1,3 +1,9 @@
+# 해당 프로그램은 Logistic Regression을 통한 learning machine Learning program이다
+# 총 20X20의 그림의 숫자를 학습하고 이를 바탕으로 추정하는데
+# 이에 따라서 Theta가 총 (10X41) 개의 값을 갖게 된다. --> 숫자가 0-9 10개 pixel(20X20)+1 때문이다.
+#Theta 값을 구한뒤 Sigmoid(Pixel X Theta) 하게 되면 10개의 값을 취하게 되고 이중 가장 큰값이 추정값이다.     
+
+
 import numpy as np
 import scipy.io
 
@@ -5,6 +11,7 @@ import scipy.io
 ## User defined functions
 import displayData as dd
 import oneVsAll as ova
+import predictOneVsAll as poa
 
 ## Machine Learning Online Class - Exercise 3 | Part 1: One-vs-all
 
@@ -34,7 +41,7 @@ num_labels          = 10    # 10 labels, from 1 to 10
 #  You will be working with a dataset that contains handwritten digits.
 
 # Load Training Data
-print('Loading and Visualizing Data ...\n')
+print('Loading and Visualizing Data ...')
 
 mat             = scipy.io.loadmat('ex3data1.mat') # training data stored in arrays X, y
 X, y            = mat['X'], mat['y']
@@ -62,9 +69,19 @@ lambda_reg = 0.1
 all_theta = ova.oneVsAll(X, y, num_labels, lambda_reg)
 input('Program paused. Press enter to continue.')
 
-
 # ## ================ Part 3: Predict for One-Vs-All ================
 # #  After ...
-# pred = predictOneVsAll(all_theta, X);
-# 
-# fprintf('\nTraining Set Accuracy: #f\n', mean(double(pred == y)) * 100);
+pred = poa.predictOneVsAll(all_theta, X)
+
+print('Training Set Accuracy: {:f}'.format(np.mean(pred == y%10)*100))
+print('Training Set Accuracy for 1:  {:f}'.format(np.mean(pred[500:1000]  == y.flatten()[500:1000]%10)  * 100))
+print('Training Set Accuracy for 2:  {:f}'.format(np.mean(pred[1000:1500] == y.flatten()[1000:1500]%10) * 100))
+print('Training Set Accuracy for 3:  {:f}'.format(np.mean(pred[1500:2000] == y.flatten()[1500:2000]%10) * 100))
+print('Training Set Accuracy for 4:  {:f}'.format(np.mean(pred[2000:2500] == y.flatten()[2000:2500]%10) * 100))
+print('Training Set Accuracy for 5:  {:f}'.format(np.mean(pred[2500:3000] == y.flatten()[2500:3000]%10) * 100))
+print('Training Set Accuracy for 6:  {:f}'.format(np.mean(pred[3000:3500] == y.flatten()[3000:3500]%10) * 100))
+print('Training Set Accuracy for 7:  {:f}'.format(np.mean(pred[3500:4000] == y.flatten()[3500:4000]%10) * 100))
+print('Training Set Accuracy for 8:  {:f}'.format(np.mean(pred[4000:4500] == y.flatten()[4000:4500]%10) * 100))
+print('Training Set Accuracy for 9:  {:f}'.format(np.mean(pred[4500:5000] == y.flatten()[4500:5000]%10) * 100))
+print('Training Set Accuracy for 0:  {:f}'.format(np.mean(pred[0:500]     == y.flatten()[0:500]%10)     * 100))
+
