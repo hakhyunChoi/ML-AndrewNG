@@ -58,7 +58,6 @@ Theta2          = mat['Theta2']
 
 # Unroll parameters 
 nn_params       = [Theta1, Theta2]
- 
 
 ## ================ Part 3: Compute Cost (Feedforward) ================
 #  To the neural network, you should first start by implementing the
@@ -73,12 +72,12 @@ nn_params       = [Theta1, Theta2]
 #  will get to implement the regularized cost.
 #
 print('\nFeedforward Using Neural Network ...')
- 
+  
 # Weight regularization parameter (we set this to 0 here).
 lambda_reg = 0
- 
+  
 J = ncf.nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda_reg)
- 
+  
 print('Cost at parameters (loaded from ex4weights): {:f} \n(this value should be about 0.287629)'.format(J))
 input('\nProgram paused. Press enter to continue.')
 
